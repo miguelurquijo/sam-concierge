@@ -1,0 +1,62 @@
+[
+  {
+    "id": "prop1",
+    "title": "Apartamento en Chapinero",
+    "price": 450000000,
+    "bedrooms": 2,
+    "bathrooms": 2,
+    "area": 75,
+    "neighborhood": "Chapinero",
+    "description": "Hermoso apartamento en Chapinero con vista a la ciudad",
+    "url": "https://lahaus.com/properties/prop1",
+    "amenities": ["Gimnasio", "Piscina", "Seguridad 24h"]
+  },
+  {
+    "id": "prop2",
+    "title": "Casa en Usaquén",
+    "price": 950000000,
+    "bedrooms": 3,
+    "bathrooms": 3,
+    "area": 150,
+    "neighborhood": "Usaquén",
+    "description": "Amplia casa con jardín en zona exclusiva de Usaquén",
+    "url": "https://lahaus.com/properties/prop2",
+    "amenities": ["Jardín", "Parqueadero", "Seguridad 24h"]
+  },
+  {
+    "id": "prop3",
+    "title": "Apartamento en El Poblado",
+    "price": 680000000,
+    "bedrooms": 3,
+    "bathrooms": 2,
+    "area": 95,
+    "neighborhood": "El Poblado",
+    "description": "Moderno apartamento en El Poblado cerca de centros comerciales",
+    "url": "https://lahaus.com/properties/prop3",
+    "amenities": ["Gimnasio", "Piscina", "Salón comunal", "Terraza"]
+  },
+  {
+    "id": "prop4",
+    "title": "Casa en Envigado",
+    "price": 850000000,
+    "bedrooms": 4,
+    "bathrooms": 3,
+    "area": 180,
+    "neighborhood": "Envigado",
+    "description": "Hermosa casa en Envigado con amplio jardín y vista a la montaña",
+    "url": "https://lahaus.com/properties/prop4",
+    "amenities": ["Jardín", "Parqueadero", "BBQ"]
+  },
+  {
+    "id": "prop5",
+    "title": "Apartamento en Laureles",
+    "price": 380000000,
+    "bedrooms": 2,
+    "bathrooms": 2,
+    "area": 68,
+    "neighborhood": "Laureles",
+    "description": "Acogedor apartamento en Laureles cerca de parques y restaurantes",
+    "url": "https://lahaus.com/properties/prop5",
+    "amenities": ["Gimnasio", "Parqueadero", "Seguridad 24h"]
+  }
+]
