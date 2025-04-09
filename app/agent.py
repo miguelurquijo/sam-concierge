@@ -3,6 +3,8 @@ from langchain.agents import AgentExecutor, create_openai_functions_agent
 from langchain.memory import ConversationBufferMemory
 from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
 from loguru import logger
+from langchain_openai import ChatOpenAI  # Update this import
+from langchain.memory import ConversationBufferMemory
 
 from .tools import create_lahaus_tools
 from .templates import format_welcome_message
@@ -87,6 +89,7 @@ def create_agent(conversation_history=None):
             ("system", system_prompt),
             MessagesPlaceholder(variable_name="chat_history"),
             ("human", "{input}"),
+            MessagesPlaceholder(variable_name="agent_scratchpad"),  # Add this line
         ]
     )
     
@@ -123,14 +126,14 @@ def run_agent(agent, user_input):
                                                 for greeting in ["hola", "buenos días", "buenas", "saludos"]):
                 return format_welcome_message()
         
-        # Run the agent with the user input
-        response = agent.run(input=user_input)
+        # Run the agent with the user input - updated to use invoke instead of run
+        response = agent.invoke({"input": user_input})
         
         # Log the conversation for analysis
         logger.info(f"User: {user_input}")
-        logger.info(f"Agent: {response}")
+        logger.info(f"Agent: {response['output']}")
         
-        return response
+        return response['output']  # Return the output from the response dict
         
     except Exception as e:
         logger.error(f"Error running agent: {str(e)}")
