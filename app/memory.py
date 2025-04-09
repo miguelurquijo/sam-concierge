@@ -2,7 +2,7 @@ from typing import Dict, List, Any, Optional
 from langchain.memory import ConversationBufferMemory
 from langchain.schema import BaseMemory
 from langchain_openai import ChatOpenAI
-from langchain.memory.chat_message_histories import ChatMessageHistory
+from langchain_community.chat_message_histories import ChatMessageHistory
 from langchain.schema.messages import BaseMessage, HumanMessage, AIMessage
 import json
 from loguru import logger
@@ -100,7 +100,7 @@ class PropertyConciergeMemory(ConversationBufferMemory):
             
         # Create a summary of older messages
         try:
-            from langchain.memory import ConversationSummaryMemory
+            from langchain_community.memory import ConversationSummaryMemory
             summary_memory = ConversationSummaryMemory(llm=self.llm)
             
             # Add message pairs to the summary memory
