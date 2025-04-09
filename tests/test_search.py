@@ -68,47 +68,40 @@ class TestPropertySearch(unittest.TestCase):
             search_tool = create_property_search_tool()
             result = search_tool("apartments in Chapinero")
             
-            # Verify fallback data was used
+            # Verify fallback data was used - modified to match new template format
             self.assertIn("Encontré", result)
             self.assertIn("Apartamento en Chapinero", result)
-            self.assertIn("Casa en Usaquén", result)
+            # We don't expect "Casa en Usaquén" in the output anymore because the filter
+            # extracts "chapinero" from the query and filters out other properties
             
-    @patch('os.path.exists')
-    @patch('builtins.open', new_callable=mock_open)
-    @patch('json.load')
-    def test_filter_extraction(self, mock_json_load, mock_file_open, mock_os_exists):
-        # Configure mocks
-        mock_os_exists.return_value = True
-        mock_json_load.return_value = self.sample_properties
+    def test_filter_extraction(self):
+        """Test the filter extraction functionality directly."""
+        from app.search import extract_filters
         
-        # Create the search tool and access its internals for testing
-        search_tool = create_property_search_tool()
+        # Test price extraction
+        filters = extract_filters("apartments under 500 millones")
+        self.assertIn('max_price', filters)
+        self.assertEqual(filters['max_price'], 500000000)
         
-        # Test different queries to exercise filter extraction
-        with patch('app.search.extract_filters', wraps=None) as mock_extract:
-            # Setup the mock to call the real function and capture its return value
-            def side_effect(query):
-                # Import here to avoid circular import
-                from app.search import extract_filters
-                return extract_filters(query)
-            
-            mock_extract.side_effect = side_effect
-            
-            # Test price extraction
-            search_tool("apartments under 500 millones")
-            mock_extract.assert_called()
-            
-            # Test bedroom extraction
-            search_tool("casa con 3 habitaciones")
-            mock_extract.assert_called()
-            
-            # Test neighborhood extraction
-            search_tool("propiedades en chapinero")
-            mock_extract.assert_called()
-            
-            # Test amenity extraction
-            search_tool("apartamento con piscina y gimnasio")
-            mock_extract.assert_called()
+        # Test bedroom extraction
+        filters = extract_filters("casa con 3 habitaciones")
+        self.assertIn('property_type', filters)
+        self.assertEqual(filters['property_type'], 'casa')
+        self.assertIn('min_bedrooms', filters)
+        self.assertEqual(filters['min_bedrooms'], 3)
+        
+        # Test neighborhood extraction
+        filters = extract_filters("propiedades en chapinero")
+        self.assertIn('neighborhoods', filters)
+        self.assertIn('chapinero', filters['neighborhoods'])
+        
+        # Test amenity extraction
+        filters = extract_filters("apartamento con piscina y gimnasio")
+        self.assertIn('property_type', filters)
+        self.assertEqual(filters['property_type'], 'apartamento')
+        self.assertIn('amenities', filters)
+        self.assertIn('piscina', filters['amenities'])
+        self.assertIn('gimnasio', filters['amenities'])
             
     @patch('os.path.exists')
     @patch('builtins.open', new_callable=mock_open)
